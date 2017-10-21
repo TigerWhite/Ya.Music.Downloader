@@ -23,8 +23,8 @@ namespace Ya.Music.Downloader.Yandex
 
         public Track(string url)
         {
-            trackID = Convert.ToInt32(Yandex.Tools.GetIdFromUrl(url, YaType.Track));
-            albumID = Convert.ToInt32(Yandex.Tools.GetIdFromUrl(url, YaType.Album));
+            trackID = Convert.ToInt32(GetIdFromUrl(url, YaType.Track));
+            albumID = Convert.ToInt32(GetIdFromUrl(url, YaType.Album));
         }
         public Track(int album, int track)
         {
@@ -38,21 +38,18 @@ namespace Ya.Music.Downloader.Yandex
             if (fileUrl == "")
                 return;
 
+            // TODO: нужно решить как сохранять файл
             Process.Start(new ProcessStartInfo(fileUrl));
         }
 
         async Task<string> GetDownloadUrl()
         {
-            var url = "https://music.yandex.ru/handlers/track.jsx?track=" + trackID + "%3A" + albumID;
-            WebClient web = new WebClient();
-            if (Yandex.Tools.cookie != "")
-                web.Headers[HttpRequestHeader.Cookie] = Yandex.Tools.cookie;
+            var url = baseUrl + "/handlers/track.jsx?track=" + trackID + "%3A" + albumID;
             string str = await web.DownloadStringTaskAsync(url);
 
             // На данный момент яндекс может усомниться в нас и отдаст капчу. Её нужно обработать.
-            if (!Yandex.Tools.TryAnswerCaptcha(ref str))
+            if (!TryAnswerCaptcha(ref str))
             {
-                Captcha.inCycle = true; // Восстановим значение по умолчанию, потмоу что мы можем выбрать другую ссылку
                 MessageBox.Show("Вы отменили запрос на скачивание трека из-за отказа от распознавания капчи", "Внимание!", MessageBoxButton.OK, MessageBoxImage.Information);
                 return "";
             }

@@ -5,17 +5,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Ya.Music.Downloader"
         mc:Ignorable="d"
-        Title="Captcha" Height="300" Width="339.703" WindowStartupLocation="CenterOwner">
+        Title="Я.Капча" Height="274.576" Width="440.762" WindowStartupLocation="CenterScreen" Closing="Window_Closing" ResizeMode="CanMinimize">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition Width="0*"/>
         </Grid.ColumnDefinitions>
         <Image Name="captchaImage" Height="50
-               " VerticalAlignment="Top" Margin="0,47,0,0" HorizontalAlignment="Left" Width="332"/>
-        <Label Content="Докажите, что вы не робот" Margin="76,10,76,0" VerticalAlignment="Top" RenderTransformOrigin="-0.223,0.106"/>
+               " VerticalAlignment="Top" Margin="20,47,20,0"/>
+        <Label Content="Докажите, что вы не робот" Margin="108,16,108,0" VerticalAlignment="Top" HorizontalContentAlignment="Center" RenderTransformOrigin="-0.223,0.106"/>
         <TextBox Name="captchaTextBox" Height="23" Margin="20,133,20,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"/>
-        <Button Name="captchaSubmit" Content="Отправить" Margin="118,175,118,0" VerticalAlignment="Top"/>
+        <Button Name="captchaSubmit" Content="Отправить" Margin="142,175,142,0" VerticalAlignment="Top" Click="CaptchaSubmit_Click" Height="21"/>
 
     </Grid>
 </Window>

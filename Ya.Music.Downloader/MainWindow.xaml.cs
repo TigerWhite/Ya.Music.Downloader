@@ -33,7 +33,12 @@ namespace Ya.Music.Downloader
                 return;
             }
 
-            var music = Yandex.Tools.CreateMusic(editUrl.Text);
+            var music = Yandex.Music.CreateMusic(editUrl.Text);
+            if(music == null)
+            {
+                MessageBox.Show("Указанная ссылка не ведет к музыкальным файлам", "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                return;
+            }
             music.Download();
         }
     }
