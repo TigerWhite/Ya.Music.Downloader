@@ -13,11 +13,11 @@ namespace Ya.Music.Downloader.Yandex
 
         public int GetNumFiles()
         {
-            
+            return 0;
         }
         public int GetMbSize()
         {
-
+            return 0;
         }
     }
 }
