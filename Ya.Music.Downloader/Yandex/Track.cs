@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Microsoft.Win32;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -17,6 +18,7 @@ namespace Ya.Music.Downloader.Yandex
     {
         // Данная строка собирается яндексом как соль, но при этом всегда одинакова. 
         private const string magicHash = "XGRlBW9FXlekgbPrRHuSiA";
+
 
         int trackID;
         int albumID;
@@ -38,8 +40,16 @@ namespace Ya.Music.Downloader.Yandex
             if (fileUrl == "")
                 return;
 
-            // TODO: нужно решить как сохранять файл
-            Process.Start(new ProcessStartInfo(fileUrl));
+            var dialog = new SaveFileDialog();
+            dialog.DefaultExt = ".mp3";
+            dialog.Filter = "Музыка (*.mp3)|*.mp3";
+            var result = dialog.ShowDialog();
+            if (result == null || result == false)
+                return;
+
+            
+            await web.DownloadFileTaskAsync(fileUrl, dialog.FileName);
+
         }
 
         async Task<string> GetDownloadUrl()
