@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -39,7 +41,23 @@ namespace Ya.Music.Downloader
                 MessageBox.Show("Указанная ссылка не ведет к музыкальным файлам", "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                 return;
             }
+            music.web.DownloadFileCompleted += (object send, AsyncCompletedEventArgs ev) => { MessageBox.Show("Файл скачан", "Готово", MessageBoxButton.OK, MessageBoxImage.Information); statusLabel.Content = "";  };
+            music.web.DownloadProgressChanged += DownloadProgressChanged;
             music.Download();
+        }
+
+        private void DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
+        {
+            var client = (WebClient)sender;
+            var header = client.ResponseHeaders[ HttpResponseHeader.ContentType];
+            if (!header.Contains("audio"))
+                return;
+
+            statusLabel.Dispatcher.Invoke(() =>
+            {
+                statusLabel.Content = e.ProgressPercentage.ToString() + " %";
+            });
+            
         }
     }
 }
